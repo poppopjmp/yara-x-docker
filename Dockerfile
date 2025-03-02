@@ -23,11 +23,11 @@ RUN apt update && apt install -y --no-install-recommends \
 
 # Copy the compiled binary from the builder stage
 COPY --from=builder /usr/local/bin/yr /usr/local/bin/yr
-
+COPY rules /rules
 VOLUME ["/malware"]
 WORKDIR /malware
 # Set the entrypoint to the yara-x executable
 ENTRYPOINT ["/usr/local/bin/yr"]
 
 # Default command (can be overridden when running the container)
-CMD ["--help"]
+CMD ["scan -s /rules /malware"]
