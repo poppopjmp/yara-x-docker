@@ -30,4 +30,4 @@ WORKDIR /malware
 ENTRYPOINT ["/usr/local/bin/yr"]
 
 # Default command (can be overridden when running the container)
-CMD ["scan -s /rules /malware"]
+CMD ["--help"]
