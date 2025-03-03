@@ -22,7 +22,7 @@ jobs:
         dockerfile: Dockerfile
         failure-threshold: error 
         
-    - name: Login to GitHub Container Registry (if needed)
+    - name: Login to GitHub Container Registry
       uses: docker/login-action@v3
       with:
         registry: ghcr.io
@@ -37,7 +37,8 @@ jobs:
         file: Dockerfile
         push: true
         tags: |
-          ghcr.io/${{ github.repository }}:latest
+          ghcr.io/${{ github.repository }}:${{ github.sha }}
+
     - name: Trivy vulnerability scan
       uses: aquasecurity/trivy-action@master
       with:
