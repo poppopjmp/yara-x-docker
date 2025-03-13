@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends musl-tools
 # Build the CLI
 RUN rustup target add x86_64-unknown-linux-musl
 RUN cargo install --target x86_64-unknown-linux-musl --path /usr/src/yara-x/cli --root /usr/local
+RUN cargo build --release --target x86_64-unknown-linux-musl --manifest-path /usr/src/yara-x/cli/Cargo.toml
 
 # --- Runtime Image ---
 FROM debian:bullseye-slim
@@ -22,12 +23,13 @@ RUN apt update && apt install -y --no-install-recommends \
     rm -rf /var/lib/apt/lists/*
 
 # Copy the compiled binary from the builder stage
-COPY --from=builder /usr/local/bin/yr /usr/local/bin/yr
+COPY --from=builder /usr/local/bin/yara-x /usr/local/bin/yara-x
+COPY --from=builder /usr/src/yara-x/cli /usr/src/yara-x/cli
 COPY rules /rules
 VOLUME ["/malware"]
 WORKDIR /malware
 # Set the entrypoint to the yara-x executable
-ENTRYPOINT ["/usr/local/bin/yr"]
+ENTRYPOINT ["/usr/local/bin/yara-x"]
 
 # Default command (can be overridden when running the container)
 CMD ["--help"]
