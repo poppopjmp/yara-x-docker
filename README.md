@@ -1,5 +1,5 @@
 # yara-x-docker
-
+[![Docker Image CI](https://github.com/poppopjmp/yara-x-docker/actions/workflows/docker-image.yml/badge.svg)](https://github.com/poppopjmp/yara-x-docker/actions/workflows/docker-image.yml)
 The usage of this container is been designed for CI/CD
 
 '''
