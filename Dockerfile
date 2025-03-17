@@ -10,7 +10,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends git && \
 
 # Build the CLI
 RUN rustup target add x86_64-unknown-linux-musl && \
-    cargo install --target x86_64-unknown-linux-musl --path /usr/src/yara-x/cli --root /usr/local
+    cargo install --target x86_64-unknown-linux-musl --path /usr/src/yara-x/cli --root /usr/local && \
+    git clone https://github.com/poppopjmp/yara-rules
+
 
 # --- Runtime Image ---
 FROM debian:bullseye-slim
@@ -24,8 +26,7 @@ RUN apt update && apt install -y --no-install-recommends \
 
 # Copy the compiled binary from the builder stage
 COPY --from=builder /usr/local/bin/yr /usr/local/bin/yr
-RUN git clone https://github.com/poppopjmp/yara-rules
-COPY ./yara-rules/rules /rules
+COPY --from=builder /usr/local/bin/yara-rules/rules /rules
 
 VOLUME ["/malware"]
 VOLUME ["/rules"]
