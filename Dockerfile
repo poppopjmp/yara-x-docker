@@ -21,7 +21,7 @@ RUN apt update && apt install -y --no-install-recommends \
 # Copy the compiled binary from the builder stage
 COPY --from=builder /usr/local/bin/yr /usr/local/bin/yr
 RUN git submodule update --init --recursive yara-rules
-COPY yara-rules/rules /rules
+COPY ./yara-rules/rules /rules
 
 VOLUME ["/malware"]
 VOLUME ["/rules"]
