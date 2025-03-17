@@ -1,10 +1,7 @@
 FROM rust:latest as builder
 
-# Create a working directory
-WORKDIR /usr/src
-
 # Copy the entire project (assuming the Dockerfile is in the same dir as .git)
-WORKDIR src/yara-x
+WORKDIR /usr/src/yara-x
 RUN apt-get update && apt-get install -y --no-install-recommends musl-tools
 # Build the CLI
 RUN rustup target add x86_64-unknown-linux-musl
