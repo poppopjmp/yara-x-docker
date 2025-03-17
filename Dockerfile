@@ -1,11 +1,11 @@
 FROM rust:latest as builder
 
 # Copy the entire project (assuming the Dockerfile is in the same dir as .git)
-WORKDIR /usr/src/yara-x
+WORKDIR /usr/src/
 
 # Initialize and update submodules
 RUN apt-get update && apt-get install -y --no-install-recommends git && \
-    git submodule update --init --recursive && \
+    git clone https://github.com/VirusTotal/yara-x && \
     apt-get install -y --no-install-recommends musl-tools
 
 # Build the CLI
@@ -24,7 +24,7 @@ RUN apt update && apt install -y --no-install-recommends \
 
 # Copy the compiled binary from the builder stage
 COPY --from=builder /usr/local/bin/yr /usr/local/bin/yr
-
+RUN git clone https://github.com/poppopjmp/yara-rules
 COPY ./yara-rules/rules /rules
 
 VOLUME ["/malware"]
