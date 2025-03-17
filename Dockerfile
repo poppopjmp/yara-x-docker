@@ -4,8 +4,7 @@ FROM rust:latest as builder
 WORKDIR /usr/src
 
 # Copy the entire project (assuming the Dockerfile is in the same dir as .git)
-RUN git clone https://github.com/VirusTotal/yara-x
-RUN cd yara-x
+WORKDIR src/yara-x
 RUN apt-get update && apt-get install -y --no-install-recommends musl-tools
 # Build the CLI
 RUN rustup target add x86_64-unknown-linux-musl
@@ -23,8 +22,11 @@ RUN apt update && apt install -y --no-install-recommends \
 
 # Copy the compiled binary from the builder stage
 COPY --from=builder /usr/local/bin/yr /usr/local/bin/yr
-COPY rules /rules
+
+COPY yara-rules/rules /rules
+
 VOLUME ["/malware"]
+VOLUME ["/rules"]
 WORKDIR /malware
 # Set the entrypoint to the yara-x executable
 ENTRYPOINT ["/usr/local/bin/yr"]
