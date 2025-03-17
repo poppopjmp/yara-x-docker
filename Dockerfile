@@ -2,10 +2,15 @@ FROM rust:latest as builder
 
 # Copy the entire project (assuming the Dockerfile is in the same dir as .git)
 WORKDIR /usr/src/yara-x
-RUN apt-get update && apt-get install -y --no-install-recommends musl-tools
+
+# Initialize and update submodules
+RUN apt-get update && apt-get install -y --no-install-recommends git && \
+    git submodule update --init --recursive && \
+    apt-get install -y --no-install-recommends musl-tools
+
 # Build the CLI
-RUN rustup target add x86_64-unknown-linux-musl
-RUN cargo install --target x86_64-unknown-linux-musl --path /usr/src/yara-x/cli --root /usr/local
+RUN rustup target add x86_64-unknown-linux-musl && \
+    cargo install --target x86_64-unknown-linux-musl --path /usr/src/yara-x/cli --root /usr/local
 
 # --- Runtime Image ---
 FROM debian:bullseye-slim
@@ -25,6 +30,7 @@ COPY ./yara-rules/rules /rules
 VOLUME ["/malware"]
 VOLUME ["/rules"]
 WORKDIR /malware
+
 # Set the entrypoint to the yara-x executable
 ENTRYPOINT ["/usr/local/bin/yr"]
 
