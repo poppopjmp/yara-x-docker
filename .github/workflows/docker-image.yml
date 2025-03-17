@@ -31,14 +31,16 @@ jobs:
         registry: ghcr.io
         username: ${{ github.repository_owner }}
         password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Verify Login
+      run: docker info
 
     - name: Build and push Docker image
-      id: docker_build
       uses: docker/build-push-action@v5
       with:
         context: .
         file: Dockerfile
         push: true
+        platforms: linux/amd64,linux/arm64
         tags: |
           ghcr.io/${{ github.repository }}:${{ github.sha }}
 
@@ -50,5 +52,5 @@ jobs:
           
     - name: Run container tests
       run: |
-        docker run --rm ghcr.io/${{ github.repository }}:${{ github.sha }} --help
+        docker run --rm ghcr.io/${{ github.repository }}:${{ github.sha }}
         docker run --rm ghcr.io/${{ github.repository }}:${{ github.sha }} scan --help
