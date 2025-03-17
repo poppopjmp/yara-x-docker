@@ -26,7 +26,7 @@ RUN apt update && apt install -y --no-install-recommends \
 
 # Copy the compiled binary from the builder stage
 COPY --from=builder /usr/local/bin/yr /usr/local/bin/yr
-COPY --from=builder /usr/local/bin/yara-rules/rules /rules
+COPY --from=builder /usr/src/yara-rules/rules /rules
 
 VOLUME ["/malware"]
 VOLUME ["/rules"]
