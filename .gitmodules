@@ -1,0 +1,6 @@
+[submodule "src/yara-x"]
+	path = src/yara-x
+	url = https://github.com/VirusTotal/yara-x
+[submodule "yara-rules"]
+	path = yara-rules
+	url = https://github.com/poppopjmp/yara-rules
