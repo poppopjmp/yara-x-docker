@@ -1,4 +1,7 @@
 # Yara-X Docker
+[![Docker Image CI](https://github.com/poppopjmp/yara-x-docker/actions/workflows/docker-image.yml/badge.svg?branch=main)](https://github.com/poppopjmp/yara-x-docker/actions/workflows/docker-image.yml)
+[![Codacy Security Scan](https://github.com/poppopjmp/yara-x-docker/actions/workflows/codacy.yml/badge.svg)](https://github.com/poppopjmp/yara-x-docker/actions/workflows/codacy.yml)
+
 
 Yara-X Docker is a project that provides a Dockerized environment for running Yara, a tool aimed at helping malware researchers identify and classify malware samples. This project simplifies the setup and usage of Yara by encapsulating it within a Docker container.
 
